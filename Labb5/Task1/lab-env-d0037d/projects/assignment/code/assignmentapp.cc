@@ -5,6 +5,7 @@
 #include "config.h"
 #include "assignmentapp.h"
 #include "Shape.h"
+#include <typeinfo>
 
 namespace Assignment
 {
@@ -25,6 +26,27 @@ AssignmentApp::~AssignmentApp()
 	// empty
 }
 
+//------------------------------------------------------------------------------
+/**
+*/
+void
+AssignmentApp::ClearByShape(const type_info & type)
+{
+	std::vector<Shape*> tmp;
+
+	for (Shape *s : renderQueue)
+	{
+		if (typeid(*s) != type)
+		{
+			tmp.push_back(s);
+		}
+		else
+		{
+			delete(s);
+		}
+	}
+	renderQueue = tmp;
+}
 //------------------------------------------------------------------------------
 /**
 */
@@ -57,12 +79,14 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 		}
 		case 81:		// Q
 		{
-
+			ClearByShape(typeid(Square));
 			break;
 		}
 		case 87:		// W
+			ClearByShape(typeid(Circle));
 			break;
 		case 69:		// E
+			ClearByShape(typeid(Triangle));
 			break;
 		default:
 			break;

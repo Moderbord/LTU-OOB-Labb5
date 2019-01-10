@@ -17,6 +17,9 @@ Square::~Square()
 Square::Square(float n) : Shape(), size(n)
 {
 	colour.r = 1.0f;										// Sqaure is magenta
+	//colour.r = randomColour();
+	//colour.g = randomColour();
+	//colour.b = randomColour();
 
 	vertices[0] = Vector2D(-n, -n);							// Inits vertices
 	vertices[1] = Vector2D(n, -n);
