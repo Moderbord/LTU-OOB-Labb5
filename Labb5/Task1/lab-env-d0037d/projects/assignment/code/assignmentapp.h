@@ -37,6 +37,9 @@ public:
 	/// line drawing function
 	static void DrawLine(const LineData & line);
 
+	/// key events
+	void KeyEvent(int key, int action, int modifier);
+
 private:
 	/// constructor hidden because it is a singleton
 	AssignmentApp();

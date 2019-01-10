@@ -5,8 +5,12 @@
 const float aspectRatio = (3.0f/4.0f);
 
 // Shape
-Shape::~Shape() {
-	delete this;
+Shape::~Shape()
+{
+}
+
+Square::~Square()
+{
 }
 
 // Square
@@ -18,6 +22,7 @@ Square::Square(float n) : Shape(), size(n)
 	vertices[1] = Vector2D(n, -n);
 	vertices[2] = Vector2D(n, n);
 	vertices[3] = Vector2D(-n, n);
+
 };
 
 void Square::updateShapePosition(float x, float y)			// Position
@@ -75,6 +80,10 @@ void Square::drawShape()									// Draw
 
 };
 
+Triangle::~Triangle()
+{
+}
+
 // Triangle
 Triangle::Triangle(float b, float h) : Shape(), base(b), height(h)
 {
@@ -129,6 +138,10 @@ void Triangle::drawShape()										// Draw
 
 		Assignment::AssignmentApp::DrawLine(line);
 	}
+}
+
+Circle::~Circle()
+{
 }
 
 // Circle

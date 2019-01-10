@@ -70,6 +70,9 @@ public:
 	/// print text at location with size and colour
 	void PrintText(const char * msg, float x, float y, float size, const Colour & colour);
 
+	/// returns window reference
+	Display::Window* GetWindow() { return this->window; }
+
 private:
 	/// renders the collected text 
 	void RenderNanoVG(NVGcontext * vg);

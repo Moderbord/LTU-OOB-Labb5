@@ -16,8 +16,22 @@ void callback(Button *btn);
 void powerOf(Button *btn);
 void alduinHotness(Button *btn);
 
+class Super
+{ 
+public:
+	virtual ~Super() { cout << "~Super" << endl; }
+};
+class Sub: public Super
+{
+public:
+	~Sub() { cout << "~Sub" << endl; }
+};
+
 int main()
 {
+	Super* sup = new Sub();
+	delete sup;
+
 	Button a;
 	a.createButton(&alduinHotness, "Yeah baby", 3);
 
@@ -70,3 +84,4 @@ void alduinHotness(Button *btn)
 		break;
 	}
 }
+

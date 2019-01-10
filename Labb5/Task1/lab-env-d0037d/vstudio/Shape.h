@@ -25,6 +25,7 @@ private:
 	Vector2D vertices[4];
 
 public:
+	~Square();
 	Square(float dim);
 	void updateShapePosition(float x, float y);
 	void updateShapeRotation(float x);
@@ -40,6 +41,7 @@ private:
 	Vector2D vertices[3];
 
 public:
+	~Triangle();
 	Triangle(float base, float height);
 	void updateShapePosition(float x, float y);
 	void updateShapeRotation(float x);
@@ -55,6 +57,7 @@ private:
 	Vector2D vertices[10];
 
 public:
+	~Circle();
 	Circle(float radius);
 	void updateShapePosition(float x, float y);
 	void updateShapeRotation(float x);
