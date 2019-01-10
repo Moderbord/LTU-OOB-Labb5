@@ -3,12 +3,13 @@ class Vector2D
 {
 	friend class Matrix2D;
 private:
-	float arr[2];
+	float arr[3];
 
 public:
 	// Constructors
 	Vector2D();
 	Vector2D(float x, float y);
+	Vector2D(float x, float y, float z);
 	Vector2D(const Vector2D &vector);
 
 	// Operators
@@ -35,4 +36,3 @@ public:
 	const void printY();
 	const void printXY();
 };
-

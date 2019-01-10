@@ -11,6 +11,7 @@ Vector2D::Vector2D()
 {
 	this->arr[0] = 0;
 	this->arr[1] = 0;
+	this->arr[2] = 1;
 }
 
 Vector2D::Vector2D(float x, float y)
@@ -19,10 +20,18 @@ Vector2D::Vector2D(float x, float y)
 	this->arr[1] = y;
 }
 
+Vector2D::Vector2D(float x, float y, float z)
+{
+	this->arr[0] = x;
+	this->arr[1] = y;
+	this->arr[2] = z;
+}
+
 Vector2D::Vector2D(const Vector2D &vector)
 {
 	this->arr[0] = vector.arr[0];
 	this->arr[1] = vector.arr[1];
+	this->arr[2] = vector.arr[2];
 }
 
 Vector2D Vector2D::operator+(const Vector2D &vector)
