@@ -112,7 +112,7 @@ float Vector2D::vectorLength()
 
 float Vector2D::dotProduct(const Vector2D & vector)
 {
-	return this->arr[0] * vector.arr[0] + this->arr[1] * vector.arr[1];		// a * x + b * y
+	return this->arr[0] * vector.arr[0] + this->arr[1] * vector.arr[1] + this->arr[2] * vector.arr[2];		// a * x + b * y
 }
 
 const void Vector2D::printX()

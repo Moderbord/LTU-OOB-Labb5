@@ -106,6 +106,13 @@ AssignmentApp::Setup()
 				this->KeyEvent(key, action, mod);
 			}
 	);
+
+	ExtMatrix2D main;
+	ExtMatrix2D sub;
+
+	main * sub;
+
+
 }
 
 //------------------------------------------------------------------------------

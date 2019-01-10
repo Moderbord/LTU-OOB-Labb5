@@ -52,3 +52,21 @@ public:
 
 };
 
+class ExtMatrix2D
+{
+private:
+	float point[3][3] = { 0 };
+
+public:
+	// Constructor
+	ExtMatrix2D();
+
+	// Operators
+	const ExtMatrix2D operator*(const ExtMatrix2D &matrix);
+	const Vector2D operator*(Vector2D &vector);
+
+	// Additional
+	const static ExtMatrix2D rotationMatrix(float x);
+	const static ExtMatrix2D translationMatrix(const Vector2D v);
+
+};

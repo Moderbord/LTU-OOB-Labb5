@@ -2,6 +2,7 @@
 class Vector2D
 {
 	friend class Matrix2D;
+	friend class ExtMatrix2D;
 private:
 	float arr[3];
 
