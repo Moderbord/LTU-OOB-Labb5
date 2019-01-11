@@ -108,9 +108,13 @@ AssignmentApp::Setup()
 	);
 
 	ExtMatrix2D main;
-	Vector2D sub;
+	Vector2D sub(3,4);
+	Vector2D move(1,1);
 
-	main * sub;
+	ExtMatrix2D test = main.translationMatrix(sub);
+
+	test.getPosition();
+	test.setPosition(move);
 
 
 }

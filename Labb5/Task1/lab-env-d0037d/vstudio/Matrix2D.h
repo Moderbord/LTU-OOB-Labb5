@@ -55,18 +55,23 @@ public:
 class ExtMatrix2D
 {
 private:
-	float point[3][3] = { 0 };
+	float point[3][3] = { 0 };		// Inits points to 0
 
 public:
 	// Constructor
 	ExtMatrix2D();
 
 	// Operators
+	void operator=(const ExtMatrix2D &matrix);
 	const ExtMatrix2D operator*(const ExtMatrix2D &matrix);
 	const Vector2D operator*(Vector2D &vector);
 
+	// Set get
+	void setPosition(Vector2D &vector);
+	const Vector2D getPosition();
+
 	// Additional
 	const static ExtMatrix2D rotationMatrix(float x);
-	const static ExtMatrix2D translationMatrix(const Vector2D v);
+	const ExtMatrix2D translationMatrix(Vector2D &v);
 
 };

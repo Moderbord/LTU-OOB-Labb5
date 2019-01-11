@@ -7,6 +7,19 @@ ExtMatrix2D::ExtMatrix2D()
 	point[2][2] = 1;
 }
 
+void ExtMatrix2D::operator=(const ExtMatrix2D & matrix)
+{
+	this->point[0][0] = matrix.point[0][0];
+	this->point[0][1] = matrix.point[0][1];
+	this->point[0][2] = matrix.point[0][2];
+	this->point[1][0] = matrix.point[1][0];
+	this->point[1][1] = matrix.point[1][1];
+	this->point[1][2] = matrix.point[1][2];
+	this->point[2][0] = matrix.point[2][0];
+	this->point[2][1] = matrix.point[2][1];
+	this->point[2][2] = matrix.point[2][2];
+}
+
 const ExtMatrix2D ExtMatrix2D::operator*(const ExtMatrix2D & matrix)
 {
 	ExtMatrix2D mat;
@@ -42,4 +55,36 @@ const Vector2D ExtMatrix2D::operator*(Vector2D & vector)
 		newV.arr[outer] = matV.dotProduct(vector);		// Point in new vector from vector multiplication
 	}
 	return newV;
+}
+
+void ExtMatrix2D::setPosition(Vector2D & vector)
+{
+	this->point[0][2] = vector.getX();
+	this->point[1][2] = vector.getY();
+}
+
+const Vector2D ExtMatrix2D::getPosition()
+{
+	Vector2D pos;
+	pos.setX(this->point[0][2]);
+	pos.setY(this->point[1][2]);
+	return pos;
+}
+
+const ExtMatrix2D ExtMatrix2D::rotationMatrix(float x)
+{
+	ExtMatrix2D rotMat;
+	rotMat.point[0][0] = cosf(x * M_PI / 180.0);
+	rotMat.point[0][1] = -sinf(x * M_PI / 180.0);
+	rotMat.point[1][0] = sinf(x * M_PI / 180.0);
+	rotMat.point[1][1] = cosf(x * M_PI / 180.0);
+	return rotMat;
+}
+
+const ExtMatrix2D ExtMatrix2D::translationMatrix(Vector2D & v)
+{
+	ExtMatrix2D transMat = *this;
+	transMat.point[0][2] = v.getX();
+	transMat.point[1][2] = v.getY();
+	return transMat;
 }
