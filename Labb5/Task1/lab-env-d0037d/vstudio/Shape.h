@@ -6,14 +6,13 @@
 class Shape
 {
 protected:
-	Vector2D anchorPoint;
-	Matrix2D rotation;
+	ExtMatrix2D transform;
+	Vector2D velocity;
 	Assignment::AssignmentApp::Colour colour;
 
 public:
 	virtual ~Shape();
-	virtual void updateShapePosition(float x, float y) = 0;
-	virtual void updateShapeRotation(float x) = 0;
+	virtual void updateShape() = 0;
 	virtual void drawShape() = 0;
 };
 
@@ -26,9 +25,8 @@ private:
 
 public:
 	~Square();
-	Square(float dim);
-	void updateShapePosition(float x, float y);
-	void updateShapeRotation(float x);
+	Square(float size);
+	void updateShape();
 	void drawShape();
 };
 
@@ -43,8 +41,7 @@ private:
 public:
 	~Triangle();
 	Triangle(float base, float height);
-	void updateShapePosition(float x, float y);
-	void updateShapeRotation(float x);
+	void updateShape();
 	void drawShape();
 };
 
@@ -59,7 +56,6 @@ private:
 public:
 	~Circle();
 	Circle(float radius);
-	void updateShapePosition(float x, float y);
-	void updateShapeRotation(float x);
+	void updateShape();
 	void drawShape();
 };

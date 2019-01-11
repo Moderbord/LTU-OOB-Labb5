@@ -61,19 +61,19 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 		{
 		case 49:		// 1
 		{ 
-			Shape* square = new Square(0.3f);
+			Shape* square = new Square(0.15f);
 			renderQueue.push_back(square);
 			break;
 		}
 		case 50:		// 2
 		{
-			Shape* circle = new Circle(0.5f);
+			Shape* circle = new Circle(0.2f);
 			renderQueue.push_back(circle);
 			break;
 		}
 		case 51:		// 3
 		{
-			Shape* triangle = new Triangle(0.4f, 0.5f);
+			Shape* triangle = new Triangle(0.2f, 0.25f);
 			renderQueue.push_back(triangle);
 			break;
 		}
@@ -106,17 +106,6 @@ AssignmentApp::Setup()
 				this->KeyEvent(key, action, mod);
 			}
 	);
-
-	ExtMatrix2D main;
-	Vector2D sub(3,4);
-	Vector2D move(1,1);
-
-	ExtMatrix2D test = main.translationMatrix(sub);
-
-	test.getPosition();
-	test.setPosition(move);
-
-
 }
 
 //------------------------------------------------------------------------------
@@ -125,17 +114,9 @@ AssignmentApp::Setup()
 void
 AssignmentApp::Update()
 {
-	/*renderQueue[0]->updateShapeRotation(0.08f);
-	renderQueue[0]->updateShapePosition(0.002f, 0.001f);
-
-	renderQueue[1]->updateShapeRotation(4.4f);
-	renderQueue[1]->updateShapePosition(-0.002f, 0.0f);
-
-	renderQueue[2]->updateShapeRotation(-1.4f);
-	renderQueue[2]->updateShapePosition(0.002f, -0.002f);*/
-
 	for (auto *s : renderQueue)
 	{
+		s->updateShape();
 		s->drawShape();
 	}
 }

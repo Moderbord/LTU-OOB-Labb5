@@ -14,41 +14,34 @@ Square::~Square()
 }
 
 // Square
-Square::Square(float n) : Shape(), size(n)
+Square::Square(float s) : Shape(), size(s)
 {
 	colour.r = 1.0f;										// Sqaure is magenta
 	//colour.r = randomColour();
 	//colour.g = randomColour();
 	//colour.b = randomColour();
 
-	vertices[0] = Vector2D(-n, -n);							// Inits vertices
-	vertices[1] = Vector2D(n, -n);
-	vertices[2] = Vector2D(n, n);
-	vertices[3] = Vector2D(-n, n);
+	transform = transform.rotationMatrix(4.1f);
+	velocity = Vector2D(0.001f, 0.001f);
+
+	vertices[0] = Vector2D(-s, -s);							// Inits vertices
+	vertices[1] = Vector2D(s, -s);
+	vertices[2] = Vector2D(s, s);
+	vertices[3] = Vector2D(-s, s);
 
 };
 
-void Square::updateShapePosition(float x, float y)			// Position
+void Square::updateShape()
 {
-	anchorPoint = anchorPoint + Vector2D(x, y);				// Updates position of anchorpoint (center of object)
-
-	for (Vector2D &v : vertices)							// Updates vertices tied to object
-	{	
-		v.setX(v.getX() + x);
-		v.setY(v.getY() + y);
-	}
-};
-
-void Square::updateShapeRotation(float x)					// Rotation
-{
-	rotation = Matrix2D::rotationMatrix(x);					// Updates the rotation matrix (
-
-	for (Vector2D &v : vertices)							// Updates vertices tied to object
+	ExtMatrix2D rotation = transform.getRotation();
+	for (Vector2D &v : vertices)
 	{
-		Vector2D rotationCenter = v - anchorPoint;			// Moves vertice to center of rotation
-		Vector2D newPosition = rotation * rotationCenter;	// Rotates vertice around point
-		v = newPosition + anchorPoint;						// Returns vertice to new position
+		Vector2D rotationCenter = v - transform.getPosition();			// Moves vertice to center of rotation
+		Vector2D newPosition = rotation * rotationCenter;				// Rotates vertice around point
+		v = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
 	}
+	Vector2D curPos = transform.getPosition();
+	transform.setPosition(curPos + velocity);
 }
 
 void Square::drawShape()									// Draw 
@@ -72,15 +65,6 @@ void Square::drawShape()									// Draw
 
 		Assignment::AssignmentApp::DrawLine(line);
 	}
-
-	char buffer[32];										// Following prints cordinates to anchorpoint
-
-	int tmp = snprintf(buffer, sizeof buffer, "%f", anchorPoint.getX());
-	Assignment::AssignmentApp::GetInstance().PrintText(buffer, 0.3f, 0.3f, 20.0f, colour);
-
-	tmp = snprintf(buffer, sizeof buffer, "%f", anchorPoint.getY());
-	Assignment::AssignmentApp::GetInstance().PrintText(buffer, 0.38f, 0.3f, 20.0f, colour);
-
 };
 
 Triangle::~Triangle()
@@ -92,32 +76,25 @@ Triangle::Triangle(float b, float h) : Shape(), base(b), height(h)
 {
 	colour.g = 1.0f;											// Triangle is cyan
 
+	transform = transform.rotationMatrix(-1.1f);
+	velocity = Vector2D(0.0001f, -0.002f);
+
 	vertices[0] = Vector2D(-base / 2, -height / M_PI);			// Inits vertices
 	vertices[1] = Vector2D(base / 2, -height / M_PI);
 	vertices[2] = Vector2D(0, height / 2);
 };
 
-void Triangle::updateShapePosition(float x, float y)			// Position
+void Triangle::updateShape()
 {
-	anchorPoint = anchorPoint + Vector2D(x, y);					// Updates position of anchorpoint (center of object)
-
-	for (Vector2D &v : vertices)								// Updates vertices tied to object
+	ExtMatrix2D rotation = transform.getRotation();
+	for (Vector2D &v : vertices)
 	{
-		v.setX(v.getX() + x);
-		v.setY(v.getY() + y);
+		Vector2D rotationCenter = v - transform.getPosition();			// Moves vertice to center of rotation
+		Vector2D newPosition = rotation * rotationCenter;				// Rotates vertice around point
+		v = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
 	}
-}
-
-void Triangle::updateShapeRotation(float x)						// Rotation
-{
-	rotation = Matrix2D::rotationMatrix(x);						// Updates the rotation matrix (
-
-	for (Vector2D &v : vertices)								// Updates vertices tied to object
-	{
-		Vector2D rotationCenter = v - anchorPoint;				// Moves vertice to center of rotation
-		Vector2D newPosition = rotation * rotationCenter;		// Rotates vertice around point
-		v = newPosition + anchorPoint;							// Returns vertice to new position
-	}
+	Vector2D curPos = transform.getPosition();
+	transform.setPosition(curPos + velocity);
 };
 
 void Triangle::drawShape()										// Draw 
@@ -154,6 +131,9 @@ Circle::Circle(float rad) : Shape(), radius(rad)
 	colour.g = 1.0f;
 	colour.b = 0.0f;
 
+	transform = transform.rotationMatrix(10.1f);
+	velocity = Vector2D(-0.001f, 0.000f);
+
 	roundness = 10;												// Number of vertices (set in shape.h)
 
 	for (int i = 0; i < roundness; i++)							// Inits vertices
@@ -164,27 +144,17 @@ Circle::Circle(float rad) : Shape(), radius(rad)
 
 };
 
-void Circle::updateShapePosition(float x, float y)				// Position
+void Circle::updateShape()
 {
-	anchorPoint = anchorPoint + Vector2D(x, y);					// Updates position of anchorpoint (cente
-
-	for (Vector2D &v : vertices)								// Updates vertices tied to object
+	ExtMatrix2D rotation = transform.getRotation();
+	for (Vector2D &v : vertices)
 	{
-		v.setX(v.getX() + x);
-		v.setY(v.getY() + y);
+		Vector2D rotationCenter = v - transform.getPosition();			// Moves vertice to center of rotation
+		Vector2D newPosition = rotation * rotationCenter;				// Rotates vertice around point
+		v = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
 	}
-}
-
-void Circle::updateShapeRotation(float x)						// Rotation
-{
-	rotation = Matrix2D::rotationMatrix(x);						// Updates the rotation matrix (
-
-	for (Vector2D &v : vertices)								// Updates vertices tied to object
-	{
-		Vector2D rotationCenter = v - anchorPoint;				// Moves vertice to center of rotation
-		Vector2D newPosition = rotation * rotationCenter;		// Rotates vertice around point
-		v = newPosition + anchorPoint;							// Returns vertice to new position
-	}
+	Vector2D curPos = transform.getPosition();
+	transform.setPosition(curPos + velocity);
 };
 
 void Circle::drawShape()										// Draw 

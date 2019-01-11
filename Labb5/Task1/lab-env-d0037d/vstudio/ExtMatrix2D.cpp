@@ -71,6 +71,18 @@ const Vector2D ExtMatrix2D::getPosition()
 	return pos;
 }
 
+const ExtMatrix2D ExtMatrix2D::getRotation()
+{
+	ExtMatrix2D rotMat;
+	rotMat.point[0][0] = this->point[0][0];
+	rotMat.point[0][1] = this->point[0][1];
+	rotMat.point[1][0] = this->point[1][0];
+	rotMat.point[1][1] = this->point[1][1];
+	return rotMat;
+}
+
+
+
 const ExtMatrix2D ExtMatrix2D::rotationMatrix(float x)
 {
 	ExtMatrix2D rotMat;
