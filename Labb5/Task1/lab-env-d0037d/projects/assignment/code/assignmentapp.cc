@@ -55,7 +55,7 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 {
 	// does something with the key. action == 1 means key has been pressed
 	// action == 0 means it was released
-	if (!action)
+	if (action)
 	{
 		switch (key)
 		{

@@ -68,8 +68,8 @@ public:
 
 	// Set get
 	void setPosition(Vector2D &vector);
-	const Vector2D getPosition();
-	const ExtMatrix2D getRotation();
+	Vector2D getPosition();
+	ExtMatrix2D getRotation();
 
 	// Additional
 	const static ExtMatrix2D rotationMatrix(float x);

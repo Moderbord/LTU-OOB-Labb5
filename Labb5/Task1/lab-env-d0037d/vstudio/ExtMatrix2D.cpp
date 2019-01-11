@@ -63,7 +63,7 @@ void ExtMatrix2D::setPosition(Vector2D & vector)
 	this->point[1][2] = vector.getY();
 }
 
-const Vector2D ExtMatrix2D::getPosition()
+Vector2D ExtMatrix2D::getPosition()
 {
 	Vector2D pos;
 	pos.setX(this->point[0][2]);
@@ -71,7 +71,7 @@ const Vector2D ExtMatrix2D::getPosition()
 	return pos;
 }
 
-const ExtMatrix2D ExtMatrix2D::getRotation()
+ExtMatrix2D ExtMatrix2D::getRotation()
 {
 	ExtMatrix2D rotMat;
 	rotMat.point[0][0] = this->point[0][0];

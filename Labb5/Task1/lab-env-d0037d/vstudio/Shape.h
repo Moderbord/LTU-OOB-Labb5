@@ -2,6 +2,8 @@
 #include "Vector2D.h"
 #include <vector>
 #include <cmath>
+#include <stdlib.h>
+
 
 class Shape
 {
