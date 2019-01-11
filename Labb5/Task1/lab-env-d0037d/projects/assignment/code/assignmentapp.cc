@@ -108,7 +108,7 @@ AssignmentApp::Setup()
 	);
 
 	ExtMatrix2D main;
-	ExtMatrix2D sub;
+	Vector2D sub;
 
 	main * sub;
 
