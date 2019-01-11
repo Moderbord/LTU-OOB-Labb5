@@ -16,6 +16,7 @@ public:
 	virtual ~Shape();
 	virtual void updateShape() = 0;
 	virtual void drawShape() = 0;
+	bool destructuble;
 };
 
 // Square

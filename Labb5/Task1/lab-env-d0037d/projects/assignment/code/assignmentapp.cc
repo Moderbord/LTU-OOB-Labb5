@@ -36,7 +36,7 @@ AssignmentApp::ClearByShape(const type_info & type)
 
 	for (Shape *s : renderQueue)
 	{
-		if (typeid(*s) != type)
+		if (typeid(*s) != type || !s->destructuble)						// Shapes that isn't destructable or matching is spared 
 		{
 			tmp.push_back(s);
 		}

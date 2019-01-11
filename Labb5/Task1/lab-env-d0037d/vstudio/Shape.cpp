@@ -43,6 +43,7 @@ Vector2D rVelocity()										// range: -(0.0099f) - 0.0099f
 	return vector;
 }
 
+
 // Shape
 Shape::~Shape()
 {
@@ -55,9 +56,7 @@ Square::~Square()
 // Square
 Square::Square(float s) : Shape(), size(s)
 {
-	colour.r = rFloat();
-	colour.g = rFloat();
-	colour.b = rFloat();
+	destructuble = false;
 
 	transform = transform.rotationMatrix(rRotation());
 	transform.setPosition(rPosition());
@@ -71,6 +70,9 @@ Square::Square(float s) : Shape(), size(s)
 	vertices[2] = Vector2D(s + posX, s + posY);
 	vertices[3] = Vector2D(-s + posX, s + posY);
 
+	colour.r = rFloat();
+	colour.g = rFloat();
+	colour.b = rFloat();
 };
 
 void Square::updateShape()
@@ -114,9 +116,7 @@ Triangle::~Triangle()
 // Triangle
 Triangle::Triangle(float b, float h) : Shape(), base(b), height(h)
 {
-	colour.r = rFloat();
-	colour.g = rFloat();
-	colour.b = rFloat();
+	destructuble = true;
 
 	transform = transform.rotationMatrix(rRotation());
 	transform.setPosition(rPosition());
@@ -128,6 +128,10 @@ Triangle::Triangle(float b, float h) : Shape(), base(b), height(h)
 	vertices[0] = Vector2D(-base / 2 + posX, -height / M_PI + posY);			// Inits vertices
 	vertices[1] = Vector2D(base / 2 + posX, -height / M_PI + posY);
 	vertices[2] = Vector2D(0 + posX, height / 2 + posY);
+
+	colour.r = rFloat();
+	colour.g = rFloat();
+	colour.b = rFloat();
 };
 
 void Triangle::updateShape()
@@ -171,9 +175,7 @@ Circle::~Circle()
 // Circle
 Circle::Circle(float rad) : Shape(), radius(rad)
 {
-	colour.r = rFloat();
-	colour.g = rFloat();
-	colour.b = rFloat();
+	destructuble = true;
 
 	transform = transform.rotationMatrix(rRotation());
 	transform.setPosition(rPosition());
@@ -187,6 +189,9 @@ Circle::Circle(float rad) : Shape(), radius(rad)
 		vertices[i].setY(radius * sinf(i * 2 * M_PI / roundness) + transform.getPosition().getY());
 	}
 
+	colour.r = rFloat();
+	colour.g = rFloat();
+	colour.b = rFloat();
 };
 
 void Circle::updateShape()
