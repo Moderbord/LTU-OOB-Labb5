@@ -58,6 +58,14 @@ Vector2D Vector2D::operator*(const Vector2D &vector)
 	return vec;
 }
 
+Vector2D Vector2D::operator*(const int i)
+{
+	Vector2D vec;
+	vec.arr[0] = this->arr[0] * i;
+	vec.arr[1] = this->arr[1] * i;
+	return vec;
+}
+
 Vector2D Vector2D::operator/(const int i)
 {
 	Vector2D vec;

@@ -17,6 +17,7 @@ public:
 	Vector2D operator+(const Vector2D &vector);
 	Vector2D operator-(const Vector2D &vector);
 	Vector2D operator*(const Vector2D &vector);
+	Vector2D operator*(const int i);
 	Vector2D operator/(const int i);
 	void operator=(const Vector2D &vector);
 	bool operator==(const Vector2D &vector);

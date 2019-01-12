@@ -73,13 +73,13 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 		{
 		case 49:		// 1
 		{ 
-			Shape* square = new Square(0.15f);
+			Shape* square = new Square(0.1f);
 			renderQueue.push_back(square);
 			break;
 		}
 		case 50:		// 2
 		{
-			Shape* circle = new Circle(0.2f);
+			Shape* circle = new Circle(0.1f);
 			renderQueue.push_back(circle);
 			break;
 		}
@@ -111,6 +111,9 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 void 
 AssignmentApp::Setup()
 {
+	Vector2D test(4, 6);
+	test / 2;
+
 	Display::Window * window = this->GetWindow();
 	window->SetKeyPressFunction(
 			[this](int key, int, int action, int mod)
@@ -135,7 +138,6 @@ AssignmentApp::Update()
 		s->drawShape();
 		s->distanceToBall(renderQueue[0]);
 	}
-
 	CleanRenderQueue();
 }
 

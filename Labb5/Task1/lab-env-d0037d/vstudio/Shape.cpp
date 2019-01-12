@@ -49,9 +49,62 @@ void Shape::drawShape(Vector2D vertices[], int numVertices)
 	}
 }
 
+void Shape::distanceToBall(Shape* ball, Vector2D vertices[], int numVertices)
+{
+	Vector2D ballPosition = ball->getTransfrom().getPosition();
+	Vector2D objectPosition = transform.getPosition();
+
+	float objectToBalldistance = (objectPosition - ballPosition).vectorLength();
+
+	if (objectToBalldistance < 0.15f + ballRadius)				// Generic size of objects
+	{
+		destroyed = true;
+
+		Vector2D closestVertice;
+		Vector2D closerVertice;
+		float closestDistance = wallX;
+		float closerDistance = wallX;
+
+		for (int i = 0; i < numVertices; i++)			// Retrieve two closest vertices
+		{
+			float verticeBallDistance = (ballPosition - vertices[i]).vectorLength();
+
+			if (verticeBallDistance < closestDistance) {
+				closerDistance = closestDistance;
+				closestDistance = verticeBallDistance;
+
+				closerVertice = closestVertice;
+				closestVertice = vertices[i];
+			}
+			else if (verticeBallDistance < closerDistance)
+			{
+				closerDistance = verticeBallDistance;
+
+				closerVertice = vertices[i];
+			}
+		}
+
+		Vector2D vectorNormal = (closestVertice + closerVertice - objectPosition * 2) / 2;
+		Vector2D normilizedNormal = vectorNormal.normalized();
+
+		Vector2D newVelocity = ball->getVelocity() - (ball->getVelocity() * normilizedNormal) * 2 * normilizedNormal;
+		ball->setVelocity(newVelocity);
+	}
+}
+
 ExtMatrix2D Shape::getTransfrom()
 {
-	return this->transform;
+	return transform;
+}
+
+Vector2D Shape::getVelocity()
+{
+	return velocity;
+}
+
+void Shape::setVelocity(Vector2D velocity)
+{
+	this->velocity = velocity;
 }
 
 // SQUARE
@@ -92,8 +145,7 @@ void Square::drawShape()									// Draw
 
 void Square::distanceToBall(Shape * ball)
 {
-	Vector2D distance = transform.getPosition() - ball->getTransfrom().getPosition();
-
+	Shape::distanceToBall(ball, vertices, 4);
 };
 
 // TRIANGLE
@@ -133,11 +185,13 @@ void Triangle::drawShape()										// Draw
 
 void Triangle::distanceToBall(Shape * ball)
 {
+	Shape::distanceToBall(ball, vertices, 3);
 }
 
 // CIRCLE
 Circle::~Circle()
 {
+
 }
 
 Circle::Circle(float rad) : Shape(), radius(rad)
@@ -173,7 +227,7 @@ void Circle::drawShape()										// Draw
 
 void Circle::distanceToBall(Shape * ball)
 {
-
+	Shape::distanceToBall(ball, vertices, roundness);
 }
 
 // PLAYER OBJECTS
@@ -187,6 +241,11 @@ Ball::Ball() : Circle(ballRadius)
 {
 	destructuble = false;
 	velocity = ballSpeed;
+}
+
+void Ball::distanceToBall(Shape * ball)
+{
+
 }
 
 void Ball::updateShape()
@@ -203,6 +262,12 @@ void Ball::updateShape()
 	{
 		Vector2D wall(1, -1, 1);
 		velocity = velocity * wall;
+	}
+
+	float speed = velocity.vectorLength();
+	if (speed < ballSpeed.vectorLength())
+	{
+		velocity = velocity * 2;
 	}
 
 

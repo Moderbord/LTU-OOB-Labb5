@@ -14,11 +14,14 @@ protected:
 public:
 	virtual ~Shape();
 	virtual void updateShape() = 0;
-	void updateShape(Vector2D vertices[], int numVertices);
 	virtual void drawShape() = 0;
-	void drawShape(Vector2D vertices[], int numVertices);
 	virtual void distanceToBall(Shape* ball) = 0;
+	void updateShape(Vector2D vertices[], int numVertices);
+	void drawShape(Vector2D vertices[], int numVertices);
+	void distanceToBall(Shape* ball, Vector2D vertices[], int numVertices);
 	ExtMatrix2D getTransfrom();
+	Vector2D getVelocity();
+	void setVelocity(Vector2D velocity);
 	bool destructuble;
 	bool destroyed;
 };
@@ -76,5 +79,6 @@ class Ball : public Circle
 public:
 	~Ball();
 	Ball();
+	void distanceToBall(Shape* ball);
 	void updateShape();
 };
