@@ -7,7 +7,8 @@ const float aspectRatio = (3.0f/4.0f);
 const float wallX = (1.28f);
 const float wallY = (0.95f);
 const float ballRadius = (0.05f);
-Vector2D ballSpeed(0.015f, 0.011f);
+Vector2D ballSpeed(-0.01f, 0.012f);
+Vector2D ballPosition(0.0f, -0.5f);
 
 
 // SHAPE
@@ -20,8 +21,8 @@ void Shape::updateShape(Vector2D vertices[], int numVertices)
 	for (int i = 0; i < numVertices; i++)
 	{
 		Vector2D rotationCenter = vertices[i] - transform.getPosition();			// Moves vertice to center of rotation
-		Vector2D newPosition = transform.getRotation() * rotationCenter;				// Rotates vertice around point
-		vertices[i] = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
+		Vector2D newPosition = transform.getRotation() * rotationCenter;			// Rotates vertice around point
+		vertices[i] = newPosition + transform.getPosition() + velocity;				// Returns vertice to new position
 	}
 	transform.setPosition(transform.getPosition() + velocity);
 }
@@ -39,7 +40,7 @@ void Shape::drawShape(Vector2D vertices[], int numVertices)
 		line.x2 = vertices[i + 1].getX() * aspectRatio;
 		line.y2 = vertices[i + 1].getY();
 
-		if (i == numVertices - 1)											// Last vertice connects to the first one
+		if (i == numVertices - 1)							// Last vertice connects to the first one
 		{
 			line.x2 = vertices[0].getX() * aspectRatio;
 			line.y2 = vertices[0].getY();
@@ -138,7 +139,7 @@ void Square::updateShape()
 	Shape::updateShape(vertices, 4);
 }
 
-void Square::drawShape()									// Draw 
+void Square::drawShape()
 {
 	Shape::drawShape(vertices, 4);
 }
@@ -178,7 +179,7 @@ void Triangle::updateShape()
 	Shape::updateShape(vertices, 3);
 };
 
-void Triangle::drawShape()										// Draw 
+void Triangle::drawShape()
 {
 	Shape::drawShape(vertices, 3);
 }
@@ -245,20 +246,20 @@ Ball::Ball() : Circle(ballRadius)
 
 void Ball::distanceToBall(Shape * ball)
 {
-
+	// Overrides distance calculation inhereted from Circle
 }
 
 void Ball::updateShape()
 {
 	Circle::updateShape();
 
-	if ((transform.getPosition().getX() > wallX) || (transform.getPosition().getX() < -wallX))				// Right or left wall
+	if ((transform.getPosition().getX() > wallX) || (transform.getPosition().getX() < -wallX))				// Right or left wall inverts x-speed
 	{
 		Vector2D wall(-1, 1, 1);			
 		velocity = velocity * wall;
 	} 
 
-	if ((transform.getPosition().getY() > wallY) || (transform.getPosition().getY() < -wallY))				// Top or bottom wall
+	if ((transform.getPosition().getY() > wallY) || (transform.getPosition().getY() < -wallY))				// Top or bottom wall inverts y-speed
 	{
 		Vector2D wall(1, -1, 1);
 		velocity = velocity * wall;

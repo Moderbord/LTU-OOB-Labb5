@@ -111,9 +111,6 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 void 
 AssignmentApp::Setup()
 {
-	Vector2D test(4, 6);
-	test / 2;
-
 	Display::Window * window = this->GetWindow();
 	window->SetKeyPressFunction(
 			[this](int key, int, int action, int mod)
@@ -124,6 +121,33 @@ AssignmentApp::Setup()
 
 	Circle* ball = new Ball();
 	renderQueue.push_back(ball);
+
+	Shape* squareA = new Square(0.1f);
+	renderQueue.push_back(squareA);
+
+	Shape* squareB = new Square(0.1f);
+	renderQueue.push_back(squareB);
+
+	Shape* squareC = new Square(0.1f);
+	renderQueue.push_back(squareC);
+
+	Shape* circleA = new Circle(0.1f);
+	renderQueue.push_back(circleA);
+
+	Shape* circleB = new Circle(0.1f);
+	renderQueue.push_back(circleB);
+
+	Shape* circleC = new Circle(0.1f);
+	renderQueue.push_back(circleC);
+
+	Shape* triangleA = new Triangle(0.2f, 0.25f);
+	renderQueue.push_back(triangleA);
+
+	Shape* triangleB = new Triangle(0.2f, 0.25f);
+	renderQueue.push_back(triangleB);
+
+	Shape* triangleC = new Triangle(0.2f, 0.25f);
+	renderQueue.push_back(triangleC);
 }
 
 //------------------------------------------------------------------------------
