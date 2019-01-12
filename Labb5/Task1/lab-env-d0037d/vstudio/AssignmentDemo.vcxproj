@@ -136,6 +136,7 @@
     <ClInclude Include="..\projects\assignment\code\assignmentapp.h" />
     <ClInclude Include="Matrix2D.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeTools.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>

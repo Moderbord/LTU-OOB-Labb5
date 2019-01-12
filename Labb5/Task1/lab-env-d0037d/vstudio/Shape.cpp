@@ -1,6 +1,7 @@
 #include "config.h"
 #include "../../projects/assignment/code/assignmentapp.h"
 #include "Shape.h"
+#include "ShapeTools.h"
 
 const float aspectRatio = (3.0f/4.0f);
 const float wallX = (1.28f);
@@ -8,49 +9,49 @@ const float wallY = (0.95f);
 const float ballRadius = (0.05f);
 Vector2D ballSpeed(0.015f, 0.011f);
 
-// RANDOM NUMBERS
-float rFloat()												// range: 0.0f - 0.99f
-{
-	float f = rand() % 100;							
-	return f / 100;
-}
-
-float rRotation()											// range: -(1.98f) - 1.98f
-{
-	float f = rFloat() * 2;
-	return rand() % 10 > 5 ? f : -f;
-}
-
-Vector2D rPosition()										// range: -(0.98f) - 0.98f
-{
-	Vector2D vector;
-
-	float f = rFloat();
-	vector.setX(rand() % 10 > 5 ? f : -f);
-
-	f = rFloat();
-	vector.setY(rand() % 10 > 5 ? f : -f + 0.85f);
-
-	return vector;
-}
-
-Vector2D rVelocity()										// range: -(0.0099f) - 0.0099f
-{
-	Vector2D vector;
-
-	float f = rFloat() / 100;
-	vector.setX(rand() % 10 > 5 ? f : -f);
-
-	f = rFloat() / 100;
-	vector.setY(rand() % 10 > 5 ? f : -f);
-
-	return vector;
-}
-
 
 // SHAPE
 Shape::~Shape()
 {
+}
+
+void Shape::updateShape(Vector2D vertices[], int numVertices)
+{
+	for (int i = 0; i < numVertices; i++)
+	{
+		Vector2D rotationCenter = vertices[i] - transform.getPosition();			// Moves vertice to center of rotation
+		Vector2D newPosition = transform.getRotation() * rotationCenter;				// Rotates vertice around point
+		vertices[i] = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
+	}
+	transform.setPosition(transform.getPosition() + velocity);
+}
+
+void Shape::drawShape(Vector2D vertices[], int numVertices)
+{
+	Assignment::AssignmentApp::LineData line;				// Line
+	line.c1 = colour;										// Colour
+	line.c2 = colour;
+
+	for (int i = 0; i < numVertices; i++)					// Creates lines from vertices
+	{
+		line.x1 = vertices[i].getX() * aspectRatio;			// Takes aspect ratio into account
+		line.y1 = vertices[i].getY();
+		line.x2 = vertices[i + 1].getX() * aspectRatio;
+		line.y2 = vertices[i + 1].getY();
+
+		if (i == numVertices - 1)											// Last vertice connects to the first one
+		{
+			line.x2 = vertices[0].getX() * aspectRatio;
+			line.y2 = vertices[0].getY();
+		}
+
+		Assignment::AssignmentApp::DrawLine(line);
+	}
+}
+
+ExtMatrix2D Shape::getTransfrom()
+{
+	return this->transform;
 }
 
 // SQUARE
@@ -81,36 +82,18 @@ Square::Square(float s) : Shape(), size(s)
 
 void Square::updateShape()
 {
-	for (Vector2D &v : vertices)
-	{
-		Vector2D rotationCenter = v - transform.getPosition();			// Moves vertice to center of rotation
-		Vector2D newPosition = transform.getRotation() * rotationCenter;				// Rotates vertice around point
-		v = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
-	}
-	transform.setPosition(transform.getPosition() + velocity);
+	Shape::updateShape(vertices, 4);
 }
 
 void Square::drawShape()									// Draw 
 {
-	Assignment::AssignmentApp::LineData line;				// Line
-	line.c1 = colour;										// Colour
-	line.c2 = colour;
+	Shape::drawShape(vertices, 4);
+}
 
-	for (int i = 0; i < 4; i++)								// Creates lines from vertices
-	{
-		line.x1 = vertices[i].getX() * aspectRatio;			// Takes aspect ratio into account
-		line.y1 = vertices[i].getY();
-		line.x2 = vertices[i + 1].getX() * aspectRatio;
-		line.y2 = vertices[i + 1].getY();
+void Square::distanceToBall(Shape * ball)
+{
+	Vector2D distance = transform.getPosition() - ball->getTransfrom().getPosition();
 
-		if (i == 3)											// Last vertice connects to the first one
-		{
-			line.x2 = vertices[0].getX() * aspectRatio;
-			line.y2 = vertices[0].getY();
-		}
-
-		Assignment::AssignmentApp::DrawLine(line);
-	}
 };
 
 // TRIANGLE
@@ -140,36 +123,16 @@ Triangle::Triangle(float b, float h) : Shape(), base(b), height(h)
 
 void Triangle::updateShape()
 {
-	for (Vector2D &v : vertices)
-	{
-		Vector2D rotationCenter = v - transform.getPosition();			// Moves vertice to center of rotation
-		Vector2D newPosition = transform.getRotation() * rotationCenter;				// Rotates vertice around point
-		v = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
-	}
-	transform.setPosition(transform.getPosition() + velocity);
+	Shape::updateShape(vertices, 3);
 };
 
 void Triangle::drawShape()										// Draw 
 {
-	Assignment::AssignmentApp::LineData line;					// Line
-	line.c1 = colour;											// Colour
-	line.c2 = colour;
+	Shape::drawShape(vertices, 3);
+}
 
-	for (int i = 0; i < 3; i++)									// Creates lines from vertices
-	{
-		line.x1 = vertices[i].getX() * aspectRatio;				// Takes aspect ratio into account
-		line.y1 = vertices[i].getY();
-		line.x2 = vertices[i + 1].getX() * aspectRatio;
-		line.y2 = vertices[i + 1].getY();
-
-		if (i == 2)												// Last vertice connects to the first one
-		{
-			line.x2 = vertices[0].getX() * aspectRatio;
-			line.y2 = vertices[0].getY();
-		}
-
-		Assignment::AssignmentApp::DrawLine(line);
-	}
+void Triangle::distanceToBall(Shape * ball)
+{
 }
 
 // CIRCLE
@@ -200,37 +163,17 @@ Circle::Circle(float rad) : Shape(), radius(rad)
 
 void Circle::updateShape()
 {
-	for (Vector2D &v : vertices)
-	{
-		Vector2D rotationCenter = v - transform.getPosition();			// Moves vertice to center of rotation
-		Vector2D newPosition = transform.getRotation() * rotationCenter;				// Rotates vertice around point
-		v = newPosition + transform.getPosition() + velocity;			// Returns vertice to new position
-	}
-	transform.setPosition(transform.getPosition() + velocity);
+	Shape::updateShape(vertices, roundness);
 };
 
 void Circle::drawShape()										// Draw 
 {
-	Assignment::AssignmentApp::LineData line;					// Line
-	line.c1 = colour;											// Colour
-	line.c2 = colour;
+	Shape::drawShape(vertices, roundness);
+}
 
-	for (int i = 0; i < roundness; i++)							// Creates lines from vertices
-	{
-		line.x1 = vertices[i].getX() * aspectRatio;				// Takes aspect ratio into account
-		line.y1 = vertices[i].getY();
+void Circle::distanceToBall(Shape * ball)
+{
 
-		line.x2 = vertices[i + 1].getX() * aspectRatio;
-		line.y2 = vertices[i + 1].getY();
-		
-		if (i == roundness - 1)									// Last vertice connects to the first one
-		{
-			line.x2 = vertices[0].getX() * aspectRatio;
-			line.y2 = vertices[0].getY();
-		}
-
-		Assignment::AssignmentApp::DrawLine(line);
-	}
 }
 
 // PLAYER OBJECTS

@@ -133,6 +133,7 @@ AssignmentApp::Update()
 	{
 		s->updateShape();
 		s->drawShape();
+		s->distanceToBall(renderQueue[0]);
 	}
 
 	CleanRenderQueue();

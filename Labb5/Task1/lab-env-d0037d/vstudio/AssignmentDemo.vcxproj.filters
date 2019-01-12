@@ -13,5 +13,6 @@
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Matrix2D.h" />
     <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="ShapeTools.h" />
   </ItemGroup>
 </Project>

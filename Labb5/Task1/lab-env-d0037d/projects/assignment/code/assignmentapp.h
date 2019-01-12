@@ -37,7 +37,7 @@ public:
 	/// line drawing function
 	static void DrawLine(const LineData & line);
 
-	/// copies renderQueue
+	/// marks shapes destroyed
 	void RemoveShapes(const type_info & type);
 
 	/// cleans renderQueue

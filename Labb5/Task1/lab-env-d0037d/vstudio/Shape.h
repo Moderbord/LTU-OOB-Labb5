@@ -4,7 +4,6 @@
 #include <cmath>
 #include <stdlib.h>
 
-
 class Shape
 {
 protected:
@@ -15,7 +14,11 @@ protected:
 public:
 	virtual ~Shape();
 	virtual void updateShape() = 0;
+	void updateShape(Vector2D vertices[], int numVertices);
 	virtual void drawShape() = 0;
+	void drawShape(Vector2D vertices[], int numVertices);
+	virtual void distanceToBall(Shape* ball) = 0;
+	ExtMatrix2D getTransfrom();
 	bool destructuble;
 	bool destroyed;
 };
@@ -32,6 +35,7 @@ public:
 	Square(float size);
 	void updateShape();
 	void drawShape();
+	void distanceToBall(Shape* ball);
 };
 
 // Triangle
@@ -47,6 +51,7 @@ public:
 	Triangle(float base, float height);
 	void updateShape();
 	void drawShape();
+	void distanceToBall(Shape* ball);
 };
 
 // Cirlce
@@ -62,6 +67,7 @@ public:
 	Circle(float radius);
 	void updateShape();
 	void drawShape();
+	void distanceToBall(Shape* ball);
 };
 
 // Ball
