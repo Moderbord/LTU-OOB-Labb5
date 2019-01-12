@@ -3,8 +3,12 @@
 #include "Shape.h"
 
 const float aspectRatio = (3.0f/4.0f);
+const float wallX = (1.28f);
+const float wallY = (0.95f);
+const float ballRadius = (0.05f);
+Vector2D ballSpeed(0.015f, 0.011f);
 
-
+// RANDOM NUMBERS
 float rFloat()												// range: 0.0f - 0.99f
 {
 	float f = rand() % 100;							
@@ -44,19 +48,19 @@ Vector2D rVelocity()										// range: -(0.0099f) - 0.0099f
 }
 
 
-// Shape
+// SHAPE
 Shape::~Shape()
 {
 }
 
+// SQUARE
 Square::~Square()
 {
 }
 
-// Square
 Square::Square(float s) : Shape(), size(s)
 {
-	destructuble = false;
+	destructuble = true;
 
 	transform = transform.rotationMatrix(rRotation());
 	transform.setPosition(rPosition());
@@ -109,11 +113,11 @@ void Square::drawShape()									// Draw
 	}
 };
 
+// TRIANGLE
 Triangle::~Triangle()
 {
 }
 
-// Triangle
 Triangle::Triangle(float b, float h) : Shape(), base(b), height(h)
 {
 	destructuble = true;
@@ -168,11 +172,11 @@ void Triangle::drawShape()										// Draw
 	}
 }
 
+// CIRCLE
 Circle::~Circle()
 {
 }
 
-// Circle
 Circle::Circle(float rad) : Shape(), radius(rad)
 {
 	destructuble = true;
@@ -227,4 +231,36 @@ void Circle::drawShape()										// Draw
 
 		Assignment::AssignmentApp::DrawLine(line);
 	}
+}
+
+// PLAYER OBJECTS
+
+// BALL
+Ball::~Ball()
+{
+}
+
+Ball::Ball() : Circle(ballRadius)
+{
+	destructuble = false;
+	velocity = ballSpeed;
+}
+
+void Ball::updateShape()
+{
+	Circle::updateShape();
+
+	if ((transform.getPosition().getX() > wallX) || (transform.getPosition().getX() < -wallX))				// Right or left wall
+	{
+		Vector2D wall(-1, 1, 1);			
+		velocity = velocity * wall;
+	} 
+
+	if ((transform.getPosition().getY() > wallY) || (transform.getPosition().getY() < -wallY))				// Top or bottom wall
+	{
+		Vector2D wall(1, -1, 1);
+		velocity = velocity * wall;
+	}
+
+
 }

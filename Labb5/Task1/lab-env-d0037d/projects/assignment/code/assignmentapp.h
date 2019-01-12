@@ -38,7 +38,10 @@ public:
 	static void DrawLine(const LineData & line);
 
 	/// copies renderQueue
-	void ClearByShape(const type_info & type);
+	void RemoveShapes(const type_info & type);
+
+	/// cleans renderQueue
+	void CleanRenderQueue();
 
 	/// key events
 	void KeyEvent(int key, int action, int modifier);

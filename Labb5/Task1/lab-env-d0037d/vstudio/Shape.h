@@ -17,6 +17,7 @@ public:
 	virtual void updateShape() = 0;
 	virtual void drawShape() = 0;
 	bool destructuble;
+	bool destroyed;
 };
 
 // Square
@@ -61,4 +62,13 @@ public:
 	Circle(float radius);
 	void updateShape();
 	void drawShape();
+};
+
+// Ball
+class Ball : public Circle
+{
+public:
+	~Ball();
+	Ball();
+	void updateShape();
 };

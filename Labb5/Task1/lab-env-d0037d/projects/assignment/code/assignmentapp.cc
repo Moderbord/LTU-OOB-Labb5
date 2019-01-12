@@ -30,22 +30,34 @@ AssignmentApp::~AssignmentApp()
 /**
 */
 void
-AssignmentApp::ClearByShape(const type_info & type)
+AssignmentApp::RemoveShapes(const type_info & type)
 {
-	std::vector<Shape*> tmp;
-
 	for (Shape *s : renderQueue)
 	{
-		if (typeid(*s) != type || !s->destructuble)						// Shapes that isn't destructable or matching is spared 
+		if (typeid(*s) == type && s->destructuble)						// Matching shapes that is destructable
 		{
-			tmp.push_back(s);
+			s->destroyed = true;
+		}
+	}
+}
+//------------------------------------------------------------------------------
+/**
+*/
+void 
+AssignmentApp::CleanRenderQueue()
+{
+	std::vector<Shape*> tmpQueue;
+
+	for (Shape *s : renderQueue) {
+		if (s->destroyed) {
+			delete(s);
 		}
 		else
 		{
-			delete(s);
+			tmpQueue.push_back(s);
 		}
 	}
-	renderQueue = tmp;
+	renderQueue = tmpQueue;
 }
 //------------------------------------------------------------------------------
 /**
@@ -79,14 +91,14 @@ AssignmentApp::KeyEvent(int key, int action, int modifier)
 		}
 		case 81:		// Q
 		{
-			ClearByShape(typeid(Square));
+			RemoveShapes(typeid(Square));
 			break;
 		}
 		case 87:		// W
-			ClearByShape(typeid(Circle));
+			RemoveShapes(typeid(Circle));
 			break;
 		case 69:		// E
-			ClearByShape(typeid(Triangle));
+			RemoveShapes(typeid(Triangle));
 			break;
 		default:
 			break;
@@ -106,6 +118,9 @@ AssignmentApp::Setup()
 				this->KeyEvent(key, action, mod);
 			}
 	);
+
+	Circle* ball = new Ball();
+	renderQueue.push_back(ball);
 }
 
 //------------------------------------------------------------------------------
@@ -119,6 +134,8 @@ AssignmentApp::Update()
 		s->updateShape();
 		s->drawShape();
 	}
+
+	CleanRenderQueue();
 }
 
 } // namespace Assignment
